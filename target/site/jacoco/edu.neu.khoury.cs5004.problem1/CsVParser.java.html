@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CsVParser.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CS5004 Assignment</a> &gt; <a href="index.source.html" class="el_package">edu.neu.khoury.cs5004.problem1</a> &gt; <span class="el_source">CsVParser.java</span></div><h1>CsVParser.java</h1><pre class="source lang-java linenums">package edu.neu.khoury.cs5004.problem1;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * A CSV Parser class.
+ * CSV data is required to be between double quotes.
+ * Null values must be represented in the CSV as double quotes with nothing between them.
+ */
+public class CsVParser implements ICsVParser {
+
+  private String path;
+  private Set&lt;String&gt; fields;
+  private BufferedReader csvReader;
+
+  /**
+   * Constructor for a CSV Parser with specified columns.
+   *
+   * @param path   CSV file path.
+   * @param fields Names of columns to parse.
+   */
+<span class="fc" id="L33">  public CsVParser(String path, Set&lt;String&gt; fields) {</span>
+<span class="fc" id="L34">    this.path = path;</span>
+<span class="fc" id="L35">    this.fields = fields;</span>
+<span class="fc" id="L36">  }</span>
+
+  /**
+   * Constructor for a CSV parser to parse all columns.
+   * Allows for a CSV parser outside of the context of document generation from a template.
+   *
+   * @param path File path to CSV.
+   */
+<span class="nc" id="L44">  public CsVParser(String path) {</span>
+<span class="nc" id="L45">    this.path = path;</span>
+<span class="nc" id="L46">    this.fields = null;</span>
+<span class="nc" id="L47">  }</span>
+
+  /**
+   * Reads the file.
+   *
+   * @throws Exception if file is not a valid path.
+   */
+  public void read() throws Exception {
+<span class="fc" id="L55">    IParser.validateFile(path);</span>
+<span class="fc" id="L56">    this.csvReader = new BufferedReader(new InputStreamReader(new FileInputStream(path),</span>
+        StandardCharsets.UTF_8));
+<span class="fc" id="L58">  }</span>
+
+  /**
+   * @return Parsed file.
+   * @throws Exception thrown if file has not yet been read.
+   */
+  @Override
+  public ParsedCsV parse() throws Exception {
+<span class="fc" id="L66">    read();</span>
+<span class="fc" id="L67">    IParser.ensureFileIsRead(csvReader);</span>
+<span class="fc" id="L68">    ParsedCsV parsedCsV = new ParsedCsV(parseCsV());</span>
+<span class="fc" id="L69">    csvReader.close();</span>
+<span class="fc" id="L70">    return parsedCsV;</span>
+  }
+
+  /**
+   * Parses the CSV.
+   *
+   * @return A Map of column names to a List of data for each row in that column.
+   * @throws Exception thrown if requested fields are not in the CSV.
+   */
+  private Map&lt;String, List&lt;String&gt;&gt; parseCsV() throws Exception {
+<span class="fc" id="L80">    Map&lt;Integer, String&gt; headerMap = parseHeaders();</span>
+<span class="fc" id="L81">    return parseData(headerMap);</span>
+  }
+
+  /**
+   * Parses the data after headers have been parsed.
+   *
+   * @param headerMap A map of column indices to column names.
+   * @return A map of column names to a list of data for each row.
+   * @throws Exception thrown if CSV cannot be read.
+   */
+  private Map&lt;String, List&lt;String&gt;&gt; parseData(Map&lt;Integer, String&gt; headerMap) throws Exception {
+    String line;
+<span class="fc" id="L93">    Map&lt;String, List&lt;String&gt;&gt; dataMap = createDataMap();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">    while ((line = csvReader.readLine()) != null) {</span>
+<span class="fc" id="L95">      List&lt;String&gt; row = parseRow(line);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">      for (Integer column : headerMap.keySet()) {</span>
+<span class="fc" id="L97">        dataMap.get(headerMap.get(column)).add(row.get(column));</span>
+<span class="fc" id="L98">      }</span>
+<span class="fc" id="L99">    }</span>
+<span class="fc" id="L100">    return dataMap;</span>
+  }
+
+  /**
+   * Creates an empty map of desired fields to an empty list.
+   *
+   * @return Map of desired fields to an empty list of strings.
+   */
+  private Map&lt;String, List&lt;String&gt;&gt; createDataMap() {
+<span class="fc" id="L109">    Map&lt;String, List&lt;String&gt;&gt; dataMap = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">    for (String field : fields) {</span>
+<span class="fc" id="L111">      dataMap.put(field, new ArrayList&lt;&gt;());</span>
+<span class="fc" id="L112">    }</span>
+<span class="fc" id="L113">    return dataMap;</span>
+  }
+
+  /**
+   * Splits a row into a List.
+   *
+   * @param row A line read in from the CSV file.
+   * @return Line split into a list, not cleaned yet.
+   */
+  private List&lt;String&gt; splitRow(String row) {
+<span class="fc" id="L123">    return Arrays.asList(row.split(&quot;\&quot;,\&quot;&quot;));</span>
+  }
+
+  /**
+   * Removes trailing and leading quotes from first and last column values.
+   *
+   * @param row List of values.
+   */
+  private void removeTrailingQuotesFirstAndLast(List&lt;String&gt; row) {
+<span class="fc" id="L132">    row.set(0, row.get(0).substring(1));</span>
+<span class="fc" id="L133">    String lastCol = row.get(row.size() - 1);</span>
+<span class="fc" id="L134">    row.set(row.size() - 1, lastCol.substring(0, lastCol.length() - 1));</span>
+<span class="fc" id="L135">  }</span>
+
+  /**
+   * Parses a row in the CSV.
+   *
+   * @param row A line read in from the CSV.
+   * @return Parsed row.
+   */
+  private List&lt;String&gt; parseRow(String row) {
+<span class="fc" id="L144">    List&lt;String&gt; parsedRow = splitRow(row);</span>
+<span class="fc" id="L145">    removeTrailingQuotesFirstAndLast(parsedRow);</span>
+<span class="fc" id="L146">    return parsedRow;</span>
+  }
+
+  /**
+   * Validates that the fields requested are in the CSV headers.
+   *
+   * @param headers Collection of column names.
+   * @throws Exception thrown if the requested field is not in the CSV.
+   */
+  private void validateHeadersMatchFields(Collection&lt;String&gt; headers) throws Exception {
+<span class="fc bfc" id="L156" title="All 2 branches covered.">    for (String col : fields) {</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">      if (!headers.contains(col)) {</span>
+<span class="fc" id="L158">        throw new IllegalArgumentException(&quot;Template does not match CSV headers.&quot;);</span>
+      }
+<span class="fc" id="L160">    }</span>
+<span class="fc" id="L161">  }</span>
+
+  /**
+   * Gets the index of column for each requested column name.
+   *
+   * @param headers List of column names.
+   * @return Map of column indices to column names.
+   */
+  private Map&lt;Integer, String&gt; getIndicesOfFields(List&lt;String&gt; headers) {
+<span class="fc" id="L170">    Map&lt;Integer, String&gt; indexMap = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">    for (int i = 0; i &lt; headers.size(); i++) {</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">      if (fields.contains(headers.get(i))) {</span>
+<span class="fc" id="L173">        indexMap.put(i, headers.get(i));</span>
+      }
+    }
+<span class="fc" id="L176">    return indexMap;</span>
+  }
+
+  /**
+   * Parses the headers of a CSV file.
+   * If no fields were specified. Each column name is set to the fields to be parsed.
+   *
+   * @return Map of column indices to column names.
+   * @throws Exception thrown if requested fields are not in the CSV.
+   */
+  private Map&lt;Integer, String&gt; parseHeaders() throws Exception {
+<span class="fc" id="L187">    List&lt;String&gt; headers = parseRow(csvReader.readLine());</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">    if (fields == null) {</span>
+<span class="nc" id="L189">      this.fields = new HashSet&lt;&gt;(headers);</span>
+    }
+<span class="fc" id="L191">    validateHeadersMatchFields(headers);</span>
+<span class="fc" id="L192">    return getIndicesOfFields(headers);</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

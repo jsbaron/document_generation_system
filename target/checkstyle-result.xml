@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="6.11.2">
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/CsVParser.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/Hub.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/IncorrectArgumentFormat.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/AbstractArgHandler.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/ParsedCsV.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/IParser.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/ITemplateParser.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/IParsedCsV.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/ParsedTemplate.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/TemplateParser.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/TemplateWriter.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/App.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/ICsVParser.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/ITemplateWriter.java">
+</file>
+<file name="/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/IHub.java">
+</file>
+</checkstyle>

@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>TemplateParserTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../testapidocs/edu/neu/khoury/cs5004/problem1/TemplateParserTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> edu.neu.khoury.cs5004.problem1;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.junit.Before;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.util.HashSet;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.*;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../edu/neu/khoury/cs5004/problem1/TemplateParserTest.html">TemplateParserTest</a> {
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>    ITemplateParser parser;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>    @Before
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      parser = <strong class="jxr_keyword">new</strong> TemplateParser(<span class="jxr_string">"/Users/joshuabaron/Documents/NEU/cs5004/Team_repo_Josh_Baron_Eric_Egan/Assignment8/src/main/java/edu/neu/khoury/cs5004/problem1/emailtemplate.txt"</span>);
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>    }
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>    @Test
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> read() <strong class="jxr_keyword">throws</strong> Exception{
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>      assertEquals(parser.parse().getTemplateString(), <span class="jxr_string">"From:insuranceCompany@ic.com\n"</span> +
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>          <span class="jxr_string">"To:[[email]]\n"</span> +
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>          <span class="jxr_string">"Subject: Insurance company – information about recent data breach\n"</span> +
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>          <span class="jxr_string">"Dear [[first_name]] [[last_name]],\n"</span> +
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>          <span class="jxr_string">"As you may have heard or read, last month we learned that criminals forced their way "</span> +
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>          <span class="jxr_string">"into our systems, \n"</span> +
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          <span class="jxr_string">"and stole information about our customers. Late last week, as part of our ongoing "</span> +
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>          <span class="jxr_string">"investigation, \n"</span> +  <span class="jxr_string">"we learned that the taken information includes names, mailing "</span> +
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>          <span class="jxr_string">"addresses, phone numbers or email addresses.\n"</span> + <span class="jxr_string">" \n"</span> +
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>          <span class="jxr_string">"I am writing to make you aware that your name, mailing address, phone number or email address may have been \n"</span> +
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>          <span class="jxr_string">"taken during the intrusion. \n"</span> +
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>          <span class="jxr_string">"\n"</span> +
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>          <span class="jxr_string">"I am truly sorry this incident occurred, and I sincerely regret any inconvenience it may cause you. \n"</span> +
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>          <span class="jxr_string">"\n"</span> +
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>          <span class="jxr_string">"Because we value you as a customer, and because your trust is important to us, our company is offering you one \n"</span> +
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>          <span class="jxr_string">"year of free credit monitoring through Experian’s ProtectMyID product, which includes identity theft insurance \n"</span> +
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>          <span class="jxr_string">"where available. You will receive more information about this offer via regular mail.\n"</span> +
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>          <span class="jxr_string">"\n"</span> +
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>          <span class="jxr_string">"You can find additional information and FAQs about this incident at our website. If you have further questions, \n"</span> +
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          <span class="jxr_string">"you may call us at 866-852-8680. \n"</span> +
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>        <span class="jxr_string">"\n"</span> +
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          <span class="jxr_string">"Thank you for your patience and your loyalty. \n"</span> +
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>          <span class="jxr_string">"Sincerely,\n"</span> +
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <span class="jxr_string">"Insurance Company CEO\n"</span>);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>    @Test
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> parse() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>      assertEquals(<strong class="jxr_keyword">new</strong> HashSet&lt;&gt;(Arrays.asList(<span class="jxr_string">"email"</span>, <span class="jxr_string">"last_name"</span>, <span class="jxr_string">"first_name"</span>)), parser.parse().getFields());
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>    }
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2019. All rights reserved.</div>
+</body>
+</html>

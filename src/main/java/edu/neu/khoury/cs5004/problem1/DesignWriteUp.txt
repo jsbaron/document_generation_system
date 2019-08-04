@@ -1,0 +1,46 @@
+Design Write-Up
+
+Josh Baron, Eric Egan
+
+Our design is as follows:
+
+An AbstractArgHandler class has static methods, which first validate, and then read arguments from the command line.
+The read method from the AbstractArgHandler returns a Hub object, which encapsulates the processing of the program.
+The hub object has fields for the template directory, the output directory, and the csv file directory.
+The process method of the Hub object initiates the data processing.
+
+In the Hub's process method, classes that implement IParser, an interface for parsing a document are used.
+
+First, a TemplateParser, which implements ITemplateParser that extends IParser, parses the template file, returning a
+ParsedTemplate object. The ParsedTemplate object encapsulates the template as String and a Set of fields found in the
+template.
+
+Next, a CsVParser, which implements ICsVParser that extends IParser, parses the CSV file, extracting only the set of
+fields encapsulated in the ParsedTemplate object. The CsVParser returns an immutable ParsedCsV object. The ParsedCsV
+object encapsulates a Map, which maps column names in the CSV to a List of data for each row in the respective column.
+
+The Map from the CsVParser is then used by a TemplateWriter to replace each field in the template with its respective
+value in from the CSV, and then write the String to a file.
+
+The motivation behind our design was to allow for flexibility and efficiency. One way our design is flexible is that it
+can take any CSV file that meets the following requirements:
+    1. The file values are enclosed in double-quotes.
+    2. Empty values in the file are represented as double-quotes with nothing between them.
+    3. The CSV file has header values.
+
+The design also requires that the template has keywords enclosed in double square brackets that are contained in the
+header row of the CSV file. As long as the files meet the requirements, the design allows for any CSV file and any
+template. This allows for the generation of any document, not just an email or a letter.
+
+This is possible because the CSV file is parsed into a map, where the keys are the column names, and the
+values are lists, which contain the data, in order, for each row in the CSV at the respective column. In order to
+prevent the user from potentially corrupting the data in the parsed CSV, the map is unmodifiable. The map is
+encapsulated into a read-only object, ParsedCsV, which contains the map mentioned above, the number of rows in the CSV,
+the number of columns in the CSV, and the set of column names in the CSV.
+
+The TemplateWriter object also adds to flexibility by using the FileWriter class, which is operating-system aware.
+
+One way the design is efficient is that it only parses out the columns in the CSV file. Instead of holding the memory
+for every value in the CSV file, the parsed CSV only columns which are included in the template. This is why the
+template is parsed first, followed by the CSV. Another way the design efficiently manages resources is that each file,
+both the template and the CSV, are only read once.
